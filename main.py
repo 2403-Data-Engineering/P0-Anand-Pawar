@@ -1,6 +1,6 @@
-from presentation.main_menu import main_menu
-from presentation.professor_menu import professor_menu
-from presentation.student_menu import student_menu
+from presentation_layer.main_menu import main_menu
+from presentation_layer.professor_menu import professor_menu
+from presentation_layer.student_menu import student_menu
 
 def run_app():
     current_menu = "main"
