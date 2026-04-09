@@ -1,5 +1,5 @@
 def main_menu():
-    print("Welcome Admin!")
+    print("\nWelcome Admin!")
     print("This is the University Management System, please select an option:")
     print("1. Manage Professors")
     print("2. Manage Students")

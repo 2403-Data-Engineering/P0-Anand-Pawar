@@ -1,27 +1,51 @@
 from models.student import Student
+from data_layer import student_dao
+from reports import report_generator
 
-_students = []
-_next_id = 1
 
+def _row_to_student(row):
+    if not row:
+        return None
 
-def add_student(first_name, last_name, major):
-    global _next_id
-
-    new_student = Student(
-        id=_next_id,
-        first_name=first_name,
-        last_name=last_name,
-        major=major
+    return Student(
+        student_id=row["student_id"],
+        first_name=row["first_name"],
+        last_name=row["last_name"],
+        email=row["email"],
+        major=row["major"],
+        year_level=row["year_level"],
+        active=bool(row["active"])
     )
 
-    _students.append(new_student)
-    _next_id += 1
 
-    return new_student
+def add_student(first_name, last_name, email, major, year_level):
+    if (
+        not first_name.strip()
+        or not last_name.strip()
+        or not email.strip()
+        or not major.strip()
+        or not year_level.strip()
+    ):
+        return "All fields are required."
+
+    try:
+        new_id = student_dao.insert_student(
+            first_name.strip(),
+            last_name.strip(),
+            email.strip(),
+            major.strip(),
+            year_level.strip()
+        )
+        return f"Student added successfully. New student ID: {new_id}"
+    except Exception as e:
+        if "Duplicate" in str(e) or "duplicate" in str(e):
+            return "Email already exists."
+        return f"Error adding student: {e}"
 
 
 def get_all_students():
-    return _students
+    rows = student_dao.fetch_all_students()
+    return [_row_to_student(row) for row in rows]
 
 
 def get_student_by_id(student_id):
@@ -30,36 +54,77 @@ def get_student_by_id(student_id):
     except ValueError:
         return None
 
-    for student in _students:
-        if student.id == student_id:
-            return student
-    return None
+    row = student_dao.fetch_student_by_id(student_id)
+    return _row_to_student(row)
 
 
-def update_student(student_id, first_name, last_name, major):
-    student = get_student_by_id(student_id)
+def update_student(student_id, first_name, last_name, email, major, year_level):
+    try:
+        student_id = int(student_id)
+    except ValueError:
+        return "Student ID must be a number."
 
-    if not student:
-        return None
+    if (
+        not first_name.strip()
+        or not last_name.strip()
+        or not email.strip()
+        or not major.strip()
+        or not year_level.strip()
+    ):
+        return "All fields are required."
 
-    if first_name:
-        student.first_name = first_name
-    if last_name:
-        student.last_name = last_name
-    if major:
-        student.major = major
+    existing_student = student_dao.fetch_student_by_id(student_id)
+    if not existing_student:
+        return "Student not found."
 
-    return student
+    try:
+        rows_updated = student_dao.update_student(
+            student_id,
+            first_name.strip(),
+            last_name.strip(),
+            email.strip(),
+            major.strip(),
+            year_level.strip()
+        )
+
+        if rows_updated == 0:
+            return "Student not found."
+
+        return "Student updated successfully."
+    except Exception as e:
+        if "Duplicate" in str(e) or "duplicate" in str(e):
+            return "Email already exists."
+        return f"Error updating student: {e}"
 
 
 def delete_student(student_id):
-    global _students
+    try:
+        student_id = int(student_id)
+    except ValueError:
+        return "Student ID must be a number."
 
-    student = get_student_by_id(student_id)
+    existing_student = student_dao.fetch_student_by_id(student_id)
+    if not existing_student:
+        return "Student not found."
 
-    if not student:
-        return False
+    if student_dao.student_has_enrollments(student_id):
+        return "Cannot delete student: this student is currently enrolled in one or more courses."
 
-    _students = [s for s in _students if s.id != student.id]
+    rows_deleted = student_dao.delete_student(student_id)
+    if rows_deleted == 0:
+        return "Student not found."
 
-    return True
+    return "Student removed successfully."
+
+def generate_student_report(student_id):
+    try:
+        student_id = int(student_id)
+    except ValueError:
+        return "Student ID must be a number."
+
+    path, error = report_generator.generate_student_enrollment_report(student_id)
+
+    if error:
+        return error
+
+    return f"Student report generated successfully: {path}"

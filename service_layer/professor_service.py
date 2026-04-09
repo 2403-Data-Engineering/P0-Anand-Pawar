@@ -1,5 +1,6 @@
 from models.professor import Professor
 from data_layer import professor_dao
+from reports import report_generator
 
 def _row_to_professor(row):
     if not row:
@@ -97,3 +98,16 @@ def delete_professor(professor_id):
         return "Professor not found."
 
     return "Professor removed successfully."
+
+def generate_professor_report(professor_id):
+    try:
+        professor_id = int(professor_id)
+    except ValueError:
+        return "Professor ID must be a number."
+
+    path, error = report_generator.generate_professor_summary_report(professor_id)
+
+    if error:
+        return error
+
+    return f"Professor report generated successfully: {path}"

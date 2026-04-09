@@ -1,6 +1,8 @@
 from presentation_layer.main_menu import main_menu
 from presentation_layer.professor_menu import professor_menu
 from presentation_layer.student_menu import student_menu
+from presentation_layer.course_menu import course_menu
+from presentation_layer.enrollment_menu import enrollment_menu
 
 def run_app():
     current_menu = "main"
@@ -15,11 +17,9 @@ def run_app():
             elif choice == "2":
                 current_menu = "student"
             elif choice == "3":
-                print("Courses not implemented yet")
-                current_menu = "main"
+                current_menu = "course"
             elif choice == "4":
-                print("Enrollments not implemented yet")
-                current_menu = "main"
+                current_menu = "enroll"
             elif choice == "5":
                 current_menu = "exit"
             else:
@@ -31,6 +31,12 @@ def run_app():
 
         elif current_menu == "student":
             current_menu = student_menu()
+
+        elif current_menu == "course":
+            current_menu = course_menu()
+
+        elif current_menu == "enroll":
+            current_menu = enrollment_menu()
 
     print("Exiting system...")
 

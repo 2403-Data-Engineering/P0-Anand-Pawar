@@ -24,7 +24,8 @@ def professor_menu():
         print("2. View Professors")
         print("3. Update Professor")
         print("4. Delete Professor")
-        print("5. Back to Main Menu")
+        print("5. Generate Professor Report")
+        print("6. Back to Main Menu")
 
         choice = input("Enter your choice (1/2/3/4/5): ").strip()
 
@@ -80,6 +81,21 @@ def professor_menu():
             print(message)
 
         elif choice == "5":
+
+            professor_id = input("Enter Professor ID to generate a report (or 'b' to go back): ").strip()
+
+            if professor_id.lower() == "b":
+                continue
+
+            existing_professor = professor_service.get_professor_by_id(professor_id)
+            if not existing_professor:
+                print("Professor not found.")
+                continue
+
+            message = professor_service.generate_professor_report(professor_id)
+            print(message)
+
+        elif choice == "6":
             return "main"
 
         else:

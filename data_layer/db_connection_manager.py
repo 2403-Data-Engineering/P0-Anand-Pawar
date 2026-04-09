@@ -23,16 +23,15 @@ def test_connection():
         cursor = conn.cursor()
 
         cursor.execute("SELECT 1")
-        print("✅ Connected and query worked")
+        print(" Connected and query worked")
 
         cursor.close()
         conn.close()
 
     except Exception as e:
-        print(f"❌ Connection failed: {e}")
+        print(f" Connection failed: {e}")
 
 
-test_connection()
 
 def show_tables():
     conn = get_connection()
@@ -48,5 +47,3 @@ def show_tables():
 
     cursor.close()
     conn.close()
-
-show_tables()
