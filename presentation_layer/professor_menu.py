@@ -27,7 +27,7 @@ def professor_menu():
         print("5. Generate Professor Report")
         print("6. Back to Main Menu")
 
-        choice = input("Enter your choice (1/2/3/4/5): ").strip()
+        choice = input("Enter your choice (1/2/3/4/5/6): ").strip()
 
         if choice == "1":
             first_name = input("First Name: ").strip()

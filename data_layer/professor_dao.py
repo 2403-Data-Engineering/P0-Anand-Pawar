@@ -44,7 +44,7 @@ def fetch_professor_by_id(professor_id):
     WHERE professor_id = %s AND active = 1
     """
 
-    cursor.execute(sql,(professor_id))
+    cursor.execute(sql,(professor_id,))
     result = cursor.fetchone()
 
     cursor.close()
@@ -78,7 +78,7 @@ def professor_has_courses(professor_id):
     FROM course
     WHERE professor_id = %s AND active = 1
     """
-    cursor.execute(sql, (professor_id))
+    cursor.execute(sql, (professor_id,))
     result = cursor.fetchone()
 
     cursor.close()
