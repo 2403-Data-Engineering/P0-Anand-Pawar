@@ -15,8 +15,8 @@ The application performs CRUD operations against a relational database and gener
 
 - **Python**
 - **MySQL**
-- **mysql-connector-python** – database access via parameterized SQL
-- **Yattag** and/or **mdutils** – report generation as HTML and/or Markdown (choose one or both)
+- **pymysql** – database access via parameterized SQL
+- **mdutils** – report generation as Markdown
 - *Stretch:* **SQLAlchemy** – ORM as an alternative to raw SQL
 - *Stretch:* **FastAPI** – REST API exposure
 
@@ -90,7 +90,7 @@ Every table must have a dedicated primary key column. Use foreign keys to enforc
 
 - A student enrollment report lists the student's name and all classes they are enrolled in, with professor and course code for each.
 - A professor summary report lists the professor's name, all classes they teach, and the students enrolled in each class.
-- Reports are generated as files (HTML via Yattag and/or Markdown via mdutils).
+- Reports are generated as files (Markdown via mdutils).
 
 ### Console Interface
 

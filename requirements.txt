@@ -1,0 +1,5 @@
+dataclasses==0.6
+dotenv==0.9.9
+mdutils==1.8.1
+PyMySQL==1.1.2
+python-dotenv==1.2.2
