@@ -97,14 +97,6 @@ Every table must have a dedicated primary key column. Use foreign keys to enforc
 - The application presents a menu-driven console interface for all operations.
 - Invalid input is handled gracefully with meaningful error messages.
 
-### Stretch – ORM
-
-- Refactor the data access layer to use SQLAlchemy instead of raw SQL via mysql-connector-python.
-
-### Stretch – REST API
-
-- Expose all CRUD and enrollment operations as HTTP endpoints using FastAPI.
-- Reports are available as downloadable endpoints.
 
 ---
 
