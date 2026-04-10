@@ -158,4 +158,4 @@ def generate_student_report(student_id):
     if error:
         return error
 
-    return f"Student report generated successfully: {path}"
+    return f"Student report generated successfully!"
