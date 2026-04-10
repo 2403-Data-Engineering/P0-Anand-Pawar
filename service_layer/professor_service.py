@@ -1,6 +1,7 @@
 from models.professor import Professor
 from data_layer import professor_dao
 from reports import report_generator
+from service_layer import validators
 
 def _row_to_professor(row):
     if not row:
@@ -18,6 +19,18 @@ def _row_to_professor(row):
 def add_professor(first_name, last_name, department, email):
     if not first_name.strip() or not last_name.strip() or not department.strip() or not email.strip():
         return "All fields are required."
+    
+    if not validators.is_valid_name(first_name):
+        return "Invalid first name."
+
+    if not validators.is_valid_name(last_name):
+        return "Invalid last name."
+
+    if not validators.is_valid_email(email):
+        return "Invalid email format."
+
+    if not validators.is_valid_text_field(department):
+        return "Invalid major."
 
     try:
         new_id = professor_dao.insert_professor(
@@ -56,6 +69,19 @@ def update_professor(professor_id, first_name, last_name, department, email):
 
     if not first_name.strip() or not last_name.strip() or not department.strip() or not email.strip():
         return "All fields are required."
+    
+    if not validators.is_valid_name(first_name):
+        return "Invalid first name."
+
+    if not validators.is_valid_name(last_name):
+        return "Invalid last name."
+
+    if not validators.is_valid_email(email):
+        return "Invalid email format."
+
+    if not validators.is_valid_text_field(department):
+        return "Invalid major."
+
 
     existing_professor = professor_dao.fetch_professor_by_id(professor_id)
     if not existing_professor:

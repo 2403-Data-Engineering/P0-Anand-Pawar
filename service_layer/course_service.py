@@ -1,5 +1,6 @@
 from models.course import Course
 from data_layer import course_dao, professor_dao
+from service_layer import validators 
 
 
 def _row_to_course(row):
@@ -19,6 +20,11 @@ def _row_to_course(row):
 def add_course(class_name, subject_code, professor_id):
     if not class_name.strip() or not subject_code.strip() or not str(professor_id).strip():
         return "All fields are required."
+
+    if not validators.is_valid_text_field(class_name):
+        return "Invalid Class Name."
+    if not validators.is_valid_subject_code(subject_code):
+        return "Invalid Subject Code."
 
     try:
         professor_id = int(professor_id)
@@ -63,6 +69,11 @@ def update_course(course_id, class_name, subject_code, professor_id):
 
     if not class_name.strip() or not subject_code.strip() or not str(professor_id).strip():
         return "All fields are required."
+    
+    if not validators.is_valid_text_field(class_name):
+        return "Invalid Class Name."
+    if not validators.is_valid_subject_code(subject_code):
+        return "Invalid Subject Code."
 
     try:
         professor_id = int(professor_id)

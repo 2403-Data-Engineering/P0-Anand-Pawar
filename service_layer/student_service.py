@@ -1,6 +1,7 @@
 from models.student import Student
 from data_layer import student_dao
 from reports import report_generator
+from service_layer import validators
 
 
 def _row_to_student(row):
@@ -27,6 +28,21 @@ def add_student(first_name, last_name, email, major, year_level):
         or not year_level.strip()
     ):
         return "All fields are required."
+    
+    if not validators.is_valid_name(first_name):
+        return "Invalid first name."
+
+    if not validators.is_valid_name(last_name):
+        return "Invalid last name."
+
+    if not validators.is_valid_email(email):
+        return "Invalid email format."
+
+    if not validators.is_valid_text_field(major):
+        return "Invalid major."
+
+    if not validators.is_valid_text_field(year_level):
+        return "Invalid year level."
 
     try:
         new_id = student_dao.insert_student(
@@ -72,6 +88,21 @@ def update_student(student_id, first_name, last_name, email, major, year_level):
         or not year_level.strip()
     ):
         return "All fields are required."
+    
+    if not validators.is_valid_name(first_name):
+        return "Invalid first name."
+
+    if not validators.is_valid_name(last_name):
+        return "Invalid last name."
+
+    if not validators.is_valid_email(email):
+        return "Invalid email format."
+
+    if not validators.is_valid_text_field(major):
+        return "Invalid major."
+
+    if not validators.is_valid_text_field(year_level):
+        return "Invalid year level."
 
     existing_student = student_dao.fetch_student_by_id(student_id)
     if not existing_student:
