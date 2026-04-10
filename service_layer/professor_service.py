@@ -136,4 +136,4 @@ def generate_professor_report(professor_id):
     if error:
         return error
 
-    return f"Professor report generated successfully: {path}"
+    return f"Professor report generated successfully!"
